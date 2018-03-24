@@ -1,0 +1,65 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+  <h1>App Name: Snowpack Viewer</h1>
+  <p>Author: Travis McStraw
+    <br>Date: February 27, 2018
+    <br>Class: CE EN 514
+    <br>Assignment: Map Tethys App
+    <br>Assignment Requirements:
+    <br>1.) Build a new Tethys app called "mapapp" on your Ubuntu server, using the scaffold command.
+    <br>2.) Remove all of the default content of the app while keeping the side bar, bottom, top, and main app areas - just remove the excess HTML.
+    <br>
+    <br>3.) Create 4 links on the sidebar:
+    <br>
+    <br>    -Home
+    <br>    -Map View
+    <br>    -Data Services
+    <br>    -About
+    <br>
+    <br>4.) Each of these links should open a new page in the main view.
+<br><br>a. Home should open a "home page" with the name of the class, name of your app, date, assignment number and main assignment requirements listed.
+<br>b. Map View should include an ArcMap Javascript API map with two data sets from your ArcMap Geoserver2 server, toggle buttons to turn off and on a raster layer and vector layer, and popup bubbles with information about the features in your map
+<br>c. Data Services will be a page that talks about the data services you have used in your map, how you created the data, where you are hosting the data, what data is included, and any additional data about your data. Also include a link to the geoserver2 data view page for your data.
+<br>d. About - the about page will include a picture of you, a link to send you an email, and a little bit about who you are.
+<br><br>5.) Submit a document with screenshots showing all required elements running on your computer.
+<br>6.) Be prepared to do a quick 2 minute demo of your app in class on Tuesday.
+</p>
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+  <h1>About the Developer</h1>
+<br>
+<br> <img src="https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/27751643_2033408330006859_621915041170995034_n.jpg?oh=b6c2796ab9a8b0d5730daff91bf40a5a&oe=5B4AE236" alt="Travis DR Overlook" width="377" height="377">
+  <p>My name is Travis McStraw.  I am a masters student at BYU studying civil engineering with an emphasis in water resources.  I also love the outdoors and enjoy exploring nature when I have free time.</p>
+<address>
+Send me an Email if you have any questions or if you discover any problems with the application: <a href="mailto:travis.mcstraw@gmail.com">travis.mcstraw@gmail.com</a>.<br>
+</address>
+<br>
+<br>
+<p>Check out the video for fun!</p>
+<br>
+<br>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Tnc9rwrJupA?rel=0&amp;start=124" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}
