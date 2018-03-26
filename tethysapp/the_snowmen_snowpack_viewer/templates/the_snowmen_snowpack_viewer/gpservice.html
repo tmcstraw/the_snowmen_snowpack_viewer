@@ -17,10 +17,13 @@
 
 <br>
 <br>
-<button id="interp" onclick="interpolate()">Interpolate</button>
+<button id="interp" onclick="app.interpolate()">Interpolate</button>
 <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
 <script src="https://js.arcgis.com/4.6/"></script>
 <script>
+
+var app;
+
 require([
   "esri/Map",
   "esri/layers/GraphicsLayer",
@@ -37,6 +40,8 @@ require([
   "dojo/on",   // require dojo/on for listening to events on the DOM
   "dojo/domReady!"
 ],
+
+
 
 function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearUnit, FeatureSet, MapImageLayer, ImageParameters, MapView, dom, on){
 
@@ -105,6 +110,8 @@ function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearU
           };
           gp.submitJob(params).then(completeCallback, errBack, statusCallback);
     }
+
+app = {interpolate: interpolate};
 
 	function completeCallback(result){
         console.log(result);
