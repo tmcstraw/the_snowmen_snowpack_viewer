@@ -249,6 +249,60 @@ def modis(request):
     """
     Controller for the app home page.
     """
+    time_series_plot = LinePlot(
+    height='500px',
+    width='500px',
+    engine='highcharts',
+    title='Change in Snowpack',
+    subtitle='Plot Subtitle',
+    spline=True,
+    x_axis_title='Time',
+    x_axis_units='Month',
+    y_axis_title='Depth',
+    y_axis_units='Inches',
+    series=[
+       {
+           'name': 'Snowpack Change',
+           'color': '#0066ff',
+           'marker': {'enabled': False},
+           'data': [
+               [0, 5], [10, -70],
+               [20, -86.5], [30, -66.5],
+               [40, -32.1],
+               [50, -12.5], [60, -47.7],
+               [70, -85.7], [80, -106.5]
+           ]
+       },
+    ]
+)
+    add_region_button = Button(
+        display_text='Add Region',
+        name='add-region-button',
+        icon='glyphicon glyphicon-plus',
+        style='success'
+    )
 
+    # Date Picker Options
+    date_picker = DatePicker(name='date1',
+                         display_text='Date',
+                         autoclose=True,
+                         format='MM d, yyyy',
+                         start_date='2/15/2014',
+                         start_view='decade',
+                         today_button=True,
+                         initial='February 15, 2014')
+
+    date_picker_error = DatePicker(name='data2',
+                               display_text='Date',
+                               initial='10/2/2013',
+                               disabled=True,
+                               error='Here is my error text.')
+
+
+    context = {"time_series_plot": time_series_plot,
+               "add_region_button": add_region_button,
+               'date_picker': date_picker,
+            'date_picker_error': date_picker_error,
+    }
 
     return render(request, 'the_snowmen_snowpack_viewer/modis.html')

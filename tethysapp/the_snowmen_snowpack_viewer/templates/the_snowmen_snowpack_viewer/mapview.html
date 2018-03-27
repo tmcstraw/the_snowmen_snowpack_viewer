@@ -8,15 +8,29 @@
   </div>
 {% endblock %}
 
+{% block app_navigation_items %}
+<br>
+ <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
+  <li class="separator"></li>
+
+<h4>Select Display Layers</h4>
+<p> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </p>
+<p> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </p>
+<p> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </p>
+<p> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </p>
+<br>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
+<br>
+<br>
+<div class="globe" id="waiting_output"></div>
+{% endblock %}
 
 {% block app_content %}
 <h1><b>The Snow Pack Project</b></h1>
   <p>March 27th, 2018</p>
-  <br>
-  <h5> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </h5>
-  <h5> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </h5>
-  <h5> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </h5>
-  <h5> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </h5>
   <br>
   {% gizmo bufferPoint_button %}
   {% gizmo delineateWatershed_button %}

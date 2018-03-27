@@ -10,9 +10,37 @@
   </div>
 {% endblock %}
 
+{% block app_navigation_items %}
+<h6>Region Name</h6>
+<br>
+ <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
+  <li class="separator"></li>
+
+<br>
+<p>Select Display Layers</p>
+<br>
+<span id="layerToggle">
+    <input type="checkbox" id="dem" checked> Utah_DEM
+  </span>
+  <br />
+  <span id="layToggle">
+    <input type="checkbox" id="snoLyr" checked> Snotel Stations
+  </span>
+<br>
+<br>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
+  <li><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
+<br>
+<br>
+<div id="waiting_output"></div>
+{% endblock %}
+
 {% block app_content %}
   <h1>Snowpack Viewer</h1>
-  <p>Click on the map to generate the MODIS Raster for the State of Utah</p>
+  <p>Click Interpolate to Display the MODIS Raster</p>
 <br>
 <button onclick="gpserve.interpolate()">Interpolate</button>
 <br>
@@ -21,6 +49,7 @@
 <link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
 <script src="https://js.arcgis.com/4.6/"></script>
 <script>
+
 
 var gpserve;
 
@@ -92,8 +121,18 @@ function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearU
     gp.outSpatialReference = { // autocasts as new SpatialReference()
           wkid: 102100 //EPSG3857
         };
-	//add map click function
-    view.on("click", interpolate);
+
+
+
+    function hide_buttons() {
+    document.getElementById("waiting_output").innerHTML = '';
+}
+
+    function waiting_output() {
+    var wait_text = "<strong>Loading...</strong><br>" +
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/the_snowmen_snowpack_viewer/images/fastglobe.gif'>";
+    document.getElementById('waiting_output').innerHTML = wait_text;
+    }
 
 	//main function
     function interpolate(event) {
@@ -104,9 +143,13 @@ function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearU
             //"Z_value_field": "Elevation_"
 
           //};
+          waiting_output()
           gp.submitJob().then(completeCallback, errBack, statusCallback);
     }
     gpserve = {interpolate: interpolate};
+
+
+
 
 	function completeCallback(result){
         console.log(result);
@@ -117,6 +160,8 @@ function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearU
             format: "png32",
             dpi: 300
           });
+
+          hide_buttons()
 
           // get the task result as a MapImageLayer
           var resultLayer = gp.getResultMapImageLayer(result.jobId);
@@ -154,14 +199,6 @@ function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, FeatureLayer, LinearU
 
 });
 </script>
-
-<span id="layerToggle">
-    <input type="checkbox" id="dem" checked> Utah_DEM
-  </span>
-  <br />
-  <span id="layToggle">
-    <input type="checkbox" id="snoLyr" checked> Snotel Stations
-  </span>
 
 <div id="viewDiv" style="margin:10%; width:900px; height:700px;"></div>
 {% endblock %}

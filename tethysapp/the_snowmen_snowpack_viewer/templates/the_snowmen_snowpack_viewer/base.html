@@ -15,15 +15,14 @@
 {% block app_navigation_items %}
   <li class="title"></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
+<li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
   <li class="separator"></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
-  <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
-  <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:gpservice' %}">GPService</a></li>
   <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
-  <li class="active"><a href="{% url 'the_snowmen_snowpack_viewer:modis' %}">MODIS GPS</a></li>
+
 {% endblock %}
 
 {% block app_content %}

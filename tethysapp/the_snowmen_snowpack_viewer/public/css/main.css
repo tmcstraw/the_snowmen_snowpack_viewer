@@ -19,3 +19,10 @@ h5 {
 	align: center;
 	height:800px;
 }
+
+.globe {
+    padding: 0;
+    margin: 0;
+    height:50px;
+    width:50px;
+}

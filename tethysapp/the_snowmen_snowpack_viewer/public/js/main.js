@@ -203,37 +203,39 @@ require([
 
 
       	document.getElementsByName("bufferPoint-button")[0].addEventListener("click", function(event){
+      	    waiting_output()
       	    gp.submitJob(params).then(completeCallback, errBack, statusCallback);
       	});
 
       	function completeCallback(result){
+            hide_buttons()
             gp.getResultData(result.jobId, "BufferedPoints_shp").then(drawResult, drawResultErrBack);
+
 	    }
 
       	document.getElementsByName("delineateWatershed-button")[0].addEventListener("click", function(event){
+      	    waiting_output()
       	    gp2.submitJob(params2).then(completeCallback2, errBack, statusCallback);
       	});
 
       	function completeCallback2(result){
+            hide_buttons()
             gp2.getResultData(result.jobId, "Output_Watershed").then(drawResult, drawResultErrBack);
+
 	    }
 
 	    document.getElementsByName("modisData-button")[0].addEventListener("click", function(event){
+      	    waiting_output()
       	    gp3.submitJob().then(completeCallback3, errBack, statusCallback);
       	});
 
-      	gpserve = {interpolate: interpolate};
+
 
       	function completeCallback3(result){
       	  console.log(result);
 
-      	  // set imageParameters
-      	  var imageParams = new ImageParameters({
-            format: "png32",
-            dpi: 300
-          });
-
           // get the task result as a MapImageLayer
+          hide_buttons()
           var resultLayer = gp3.getResultMapImageLayer(result.jobId);
           resultLayer.opacity = 0.7;
           resultLayer.title = "Reclass_MOD11";
@@ -243,21 +245,15 @@ require([
 	    }
 
 	    document.getElementsByName("interpolateSnowPack-button")[0].addEventListener("click", function(event){
+      	    waiting_output()
       	    gp4.submitJob(params4).then(completeCallback4, errBack, statusCallback);
       	});
-
-      	app = {interpolate: interpolate};
 
       	function completeCallback4(result){
             console.log(result);
 
-            // set imageParameters
-            var imageParams = new ImageParameters({
-            format: "png32",
-            dpi: 300
-            });
-
             // get the task result as a MapImageLayer
+            hide_buttons()
             var resultLayer = gp4.getResultMapImageLayer(result.jobId);
             resultLayer.opacity = 0.7;
             resultLayer.title = "surface";
@@ -305,4 +301,16 @@ function showHide (){
 	if(document.getElementById("Snotel_Stations").checked){
 		 snowtel_network_layer.visible = true;
 	}
+}
+
+//Spinning Progress Globe
+
+function hide_buttons() {
+    document.getElementById("waiting_output").innerHTML = '';
+}
+
+function waiting_output() {
+    var wait_text = "<strong>Loading...</strong><br>" +
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/the_snowmen_snowpack_viewer/images/fastglobe.gif'>";
+    document.getElementById('waiting_output').innerHTML = wait_text;
 }
