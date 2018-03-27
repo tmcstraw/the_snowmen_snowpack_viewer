@@ -1,8 +1,6 @@
 {% extends "the_snowmen_snowpack_viewer/base.html" %}
 {% load tethys_gizmos %}
-
-<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
-<script src="https://js.arcgis.com/4.6/"></script>
+{% load staticfiles %}
 
 {% block header_buttons %}
   <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
@@ -10,128 +8,37 @@
   </div>
 {% endblock %}
 
+
 {% block app_content %}
-  <h1>Snowpack Viewer</h1>
-  <p>Select a region to view changes in Snowpack</p>
-<br>
-{% gizmo select_region %}
-{% gizmo select_region_button %}
-<br>
-<br>
-<style>
-  html, body, #viewDiv {
-    padding: 0;
-    margin: ;
-    height: 100%;
-    width: 100%;
-  }
-</style>
-<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
-<script src="https://js.arcgis.com/4.6/"></script>
-<script>
-require([
-    "esri/Map",
-    "esri/views/MapView",
-	"esri/layers/FeatureLayer",
-	"esri/layers/MapImageLayer",
-    "dojo/dom",  // require dojo/dom for getting the DOM element
-    "dojo/on",   // require dojo/on for listening to events on the DOM
-    "dojo/domReady!"
-], function(Map, MapView, FeatureLayer, MapImageLayer, dom, on){
+<h1><b>The Snow Pack Project</b></h1>
+  <p>March 27th, 2018</p>
+  <br>
+  <h5> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </h5>
+  <h5> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </h5>
+  <h5> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </h5>
+  <h5> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </h5>
+  <br>
+  {% gizmo bufferPoint_button %}
+  {% gizmo delineateWatershed_button %}
+  {% gizmo modisData_button %}
+  {% gizmo interpolateSnowPack_button %}
+  <br>
+  {% gizmo date_picker_initial %}
+  {% gizmo date_picker_final %}
+  <br>
+  <div id="showMapView"></div>
+  <br>
 
-	var template = { // autocasts as new PopupTemplate()
+{% gizmo select_input %}
 
-        title: "Snotel Stations",
+{% gizmo timeseries_plot %}
 
-        content: "<p>Station Name: <b>{NAME}</b></p>" +
-			"<ul><li>Latitude: {LATITUDE}<li>" +
-			"Longitude: {LONGITUDE}" +
-			"<li>Network: {NETWORK}<li><ul>"
-	};
-
-	var utah_dem_Lyr = new MapImageLayer({
-		url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen/Utah_DEM/MapServer",
-		id: "utahdem"
-	});
-	var snotelLyr = new FeatureLayer ({
-	  url: "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Snotel_Network/FeatureServer/0",
-	  outFields: ["*"],
-	  popupTemplate: template
-
-	});
-
-	var map = new Map({
-	  basemap: "satellite",
-	});
-
-	var view = new MapView({
-	  container: "viewDiv",  // Reference to the scene div created in step 5
-	  map: map,  // Reference to the map object created before the scene
-	  zoom: 6,  // Sets zoom level based on level of detail (LOD)
-	  center: [-111.1, 39.1]  // Sets center point of view using longitude,latitude
-	});
-
-
-	map.layers.add(utah_dem_Lyr);
-	map.add(snotelLyr);
-
-
-
-	var snotelLyrToggle = dom.byId("snoLyr");
-
-    // Listen to the onchange event for the checkbox
-    on(snotelLyrToggle, "change", function(){
-      // When the checkbox is checked (true), set the layer's visibility to true
-      snotelLyr.visible = snotelLyrToggle.checked;
-    });
-
-	// Create a variable referencing the checkbox node
-    var demLyrToggle = dom.byId("dem");
-
-    // Listen to the onchange event for the checkbox
-    on(demLyrToggle, "change", function(){
-      // When the checkbox is checked (true), set the layer's visibility to true
-      utah_dem_Lyr.visible = demLyrToggle.checked;
-    });
-
-  });
-</script>
-  <span id="layerToggle">
-    <input type="checkbox" id="dem" checked> Utah_DEM
-  </span>
-  <br />
-  <span id="layToggle">
-    <input type="checkbox" id="snoLyr" checked> Snotel Stations
-  </span>
-
-<div id="viewDiv" style="margin:10%; width:900px; height:700px;"></div>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
-  <!-- Example Modal -->
-  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
-        </div>
-        <div class="modal-body">
-          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
-          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
-          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 {% endblock %}
 
 {% block app_actions %}
-{% gizmo add_region_button %}
 {% endblock %}
