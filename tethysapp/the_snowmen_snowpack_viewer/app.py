@@ -69,6 +69,11 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 url='the-snowmen-snowpack-viewer/modis',
                 controller='the_snowmen_snowpack_viewer.controllers.modis'
             ),
+            UrlMap(
+                name='region',
+                url='the-snowmen-snowpack-viewer/region',
+                controller='the_snowmen_snowpack_viewer.controllers.region'
+            ),
         )
 
         return url_maps
