@@ -1,0 +1,136 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+  <h1><b>Snowpack Viewer Mockups</b></h1><br>
+  <h3><i>Snowpack Viewer/Projected Runoff Analysis</i></h3>
+  <h3>CEEn 514 - Geospatial software development</h3>
+  <h5>Travis McStraw, Jorge Sanchez, Jason Biesinger</h5>
+
+  <p><b>Project Title</b></p>
+  <p>
+  Snowpack Viewer/Expected Runoff Analysis Application
+  </p>
+  <br>
+  <p><b>Team Name</b></p>
+  <p>
+    The Snowmen
+  </p>
+  <br>
+  <p><b>Team Members</b></p>
+  <p>
+  Jason Biesinger, Jorge Sanchez, Travis McStraw
+  </p>
+  <br>
+
+  <p><b>HOME PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_01.jpg", height="500px">
+  <p>
+  This will be the original page that will be displayed when you open the app. You will be able to
+select a region from this page. There will be a drop-down list of predefined regions/mountain
+ranges and by clicking the view region the regional analysis page shown later will be displayed
+for the selected region. The links to other pages can be found on the side of every other page
+of the app and the info/documentation, home, and settings buttons will be in the top left menu
+of every page as well.
+  </p>
+  <br>
+
+  <p><b>GLOBAL MAP PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_02.jpg", height="500px">
+  <p>
+  This page will display a global map of the snowpack data. The map will have interactive zoom
+features and possibly a user defined point or polygon feature where the change in snowpack
+over time can be displayed for a single point or a polygon drawn by the user. The different time
+steps can be cycled through or can be played as an animation using the controls at the top. A
+single time step can also be displayed using the select a day tool.
+  </p>
+  <br>
+
+  <p><b>REGIONAL ANALYSIS PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_03.jpg", height="500px">
+  <p>
+  This is the page that will be displayed once a region is selected. The same features will exist
+here as in the global map, with the addition of a time series graph for that particular region.
+The Map interaction dropdown will be the feature described previously that allows the user to
+view the time series of a particular point or a user drawn polygon.
+  </p>
+  <br>
+
+  <p><b>ADD REGION PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_04.jpg", height="430px">
+  <p>
+  Here the user will specify the necessary information to add a region to the app. The choose
+shapefile button will allow the user to upload a shapefile of a particular region that he/she is
+interested in.
+  </p>
+  <br>
+
+<p><b>MANAGE REGIONS PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_05.jpg", height="500px">
+  <p>
+  This page will allow the user to view all of the available regions and delete regions if they no
+longer desire them to be available in the app.
+  </p>
+  <br>
+
+<p><b>ADD GEOSERVER PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_06.jpg", height="500px">
+  <p>
+  This page will allow users to specify a geoserver within the app interface.
+  </p>
+  <br>
+
+<p><b>MANAGE GEOSERVERS PAGE</b></p>
+  <img src="http://127.0.0.1:8000/static/the_snowmen_snowpack_viewer/images/mock_up_07.jpg", height="430px">
+  <p>
+  This page allows the user to view the geoservers being used by the app and can allow them to
+update or delete a geoserver.
+  </p>
+
+<br>
+<a href="https://drive.google.com/open?id=1Pmsm7eCiCNCTAF-1kP_JwvLHEO7wDQIk" class="embed">Download file</a>
+<br>
+<div class="row" style="text-align: center;">
+        <iframe src="http://docs.google.com/gview?url=http://et.byu.edu/~tmcstraw/mockup.pdf&embedded=true" align="middle" style="width:90%; height:500px;" frameborder="0"></iframe>
+    </div>
+<br>
+<br>
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_navigation_items %}
+{% url 'the_snowmen_snowpack_viewer:home' as home %}
+{% url 'the_snowmen_snowpack_viewer:mapview' as mapview %}
+{% url 'the_snowmen_snowpack_viewer:proposal' as proposal %}
+{% url 'the_snowmen_snowpack_viewer:mockup' as mockup %}
+{% url 'the_snowmen_snowpack_viewer:data_services' as data_services %}
+{% url 'the_snowmen_snowpack_viewer:animation' as animation %}
+{% url 'the_snowmen_snowpack_viewer:polygontool' as polygontool %}
+{% url 'the_snowmen_snowpack_viewer:about' as about %}
+<br>
+  <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
+  <li class="{% if request.path == mapview %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
+  <li class="{% if request.path == proposal %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
+  <li class="{% if request.path == mockup %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
+  <li class="{% if request.path == data_services %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
+  <li class="{% if request.path == animation %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
+  <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
+  <li class="separator"></li>
+
+<h4>Select Display Layers</h4>
+<p> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </p>
+<p> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </p>
+<p> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </p>
+<p> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </p>
+<br>
+  <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
+<br>
+<br>
+<div class="globe" id="waiting_output"></div>
+{% endblock %}
+
+{% block app_content %}
+<h1><b>The Snow Pack Project</b></h1>
+  <p>April 3rd, 2018</p>
+  <br>
+<button class="action-button esri-icon-polygon" id="polygonButton" type="button"
+        title="Draw polygon"></button>
+
+  <br>
+  <div id="showMapView"></div>
+  <br>
+
+
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+
+{% endblock %}
+
+{% block app_actions %}
+{% endblock %}

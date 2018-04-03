@@ -1,0 +1,85 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_navigation_items %}
+{% url 'the_snowmen_snowpack_viewer:home' as home %}
+{% url 'the_snowmen_snowpack_viewer:mapview' as mapview %}
+{% url 'the_snowmen_snowpack_viewer:proposal' as proposal %}
+{% url 'the_snowmen_snowpack_viewer:mockup' as mockup %}
+{% url 'the_snowmen_snowpack_viewer:data_services' as data_services %}
+{% url 'the_snowmen_snowpack_viewer:animation' as animation %}
+{% url 'the_snowmen_snowpack_viewer:polygontool' as polygontool %}
+{% url 'the_snowmen_snowpack_viewer:about' as about %}
+
+<br>
+  <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
+  <li class="{% if request.path == mapview %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
+  <li class="{% if request.path == proposal %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
+  <li class="{% if request.path == mockup %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
+  <li class="{% if request.path == data_services %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
+  <li class="{% if request.path == animation %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
+  <li class="separator"></li>
+<p>Select a Day</p>
+{% gizmo date_picker_initial %}
+{% gizmo date_picker_final %}
+
+<br>
+<h4>Select Display Layers</h4>
+<p> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </p>
+<p> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </p>
+<p> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </p>
+<p> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </p>
+<br>
+  <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
+  <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
+<br>
+<br>
+<div class="globe" id="waiting_output"></div>
+{% endblock %}
+
+{% block app_content %}
+  <h1>Snowpack Viewer</h1>
+  <p></p>
+  {% gizmo horizontal_buttons %}
+  {% gizmo sliderVideo %}
+  <br>
+  <div id="showMapView" style="margin:10%; width:900px; height:700px;"></div>
+<br>
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block app_actions %}
+{% gizmo add_region_button %}
+{% endblock %}

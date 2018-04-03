@@ -1,0 +1,215 @@
+{% extends "the_snowmen_snowpack_viewer/base.html" %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+
+{% block header_buttons %}
+  <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div>
+{% endblock %}
+
+{% block app_content %}
+  <h1><b>Snowpack Viewer Project Proposal</b></h1>
+
+  <h3><i>Snowpack Viewer/Projected Runoff Analysis</i></h3>
+  <h3>CEEn 514 - Geospatial software development</h3>
+  <h5>Travis McStraw, Jorge Sanchez, Jason Biesinger</h5>
+
+  <p><b>Proposal Leader</b></p>
+  <p>
+  Travis McStraw
+  </p>
+  <br>
+  <p><b>Project Title</b></p>
+  <p>
+  Snowpack Viewer/Expected Runoff Analysis Application
+  </p>
+  <br>
+  <p><b>Team Name</b></p>
+  <p>
+    The Snowmen
+  </p>
+  <br>
+  <p><b>Team Members</b></p>
+  <p>
+  Jason Biesinger, Jorge Sanchez, Travis McStraw
+  </p>
+  <br>
+  <p><b>Goal of the Project</b></p>
+  <p>
+  To be able to view snowpack data on a global scale in order to help make
+    engineering decisions in different regions throughout the world.  Also,
+    to be able to make a general estimate of expected spring runoff for a
+    user defined watershed that includes snowpack data.
+  </p>
+  <br>
+  <p><b>Engineering Problem Being Addressed</b></p>
+  <p>
+    There are many locations around the world where snowpack data is available
+    but not always viewable. Engineers could use this tool to more easily find
+    and view the data available to help them as they make engineering decisions
+    and calculations. The information found in this app could be used to
+    calculate the expected spring runoff of a user defined watershed.  This
+    would allow users to predict runoff based on snowpack data.
+  </p>
+  <br>
+  <p><b>What kind of vector and raster data analysis will be required?</b></p>
+  <p>
+    Most of the viewing capabilities will not necessarily involve any
+    geoprocessing tools.  However, the idea is to allow the user to upload a
+    custom polygon shapefile(vector data) of a designated watershed and then
+    be able to calculate the total volume of water due to snowmelt in that
+    watershed.  Research will have to be conducted to investigate what formats
+    global snowpack data is available in, but it will likely be in some sort of
+    grid/raster format.  The idea is to calculate the volume in each of the
+    grid cells that intersect the uploaded watershed shapefile in order to
+    calculate the total volume of expected runoff in the watershed.
+  </p>
+  <br>
+  <p><b>What data will be distributed to the app via map services?</b></p>
+  <p>
+    The time series data will need to be distributed using a map service.  Our
+    initial idea is to create geotiffs of the snowpack data(or some other form
+    of gridded contours) and store them on geoserver and use WMS to display the
+    geotiffs in the tethys application on a global map.  The local analysis
+    based on the user defined watershed, will also require geotiffs of the
+    specified region to be stored on geoserver and mapped to the map window
+    using WMS.  A global imagery basemap will also be displayed underneath the
+    geotiffs.
+  </p>
+  <br>
+  <p><b>What geoprocessing workflow will happen on the server - in general terms?</b></p>
+  <p>
+    In general terms, the geoprocessing workflow will use the snowpack
+    data(probably in the form of a raster) as input.  The attributes stored in
+    each of the grid cells will be the volume of snowpack within the cell.  We
+    will have to look into the following idea further, but its possible that
+    temperature/climate data can then be used to determine the expected
+    snowmelt.  This will require some research to determine what data/other
+    rasters/equations need to be included in the raster calculator.  The other
+    and probably simpler option would be if the app displayed change in
+    snowpack, in which case the raster calculator can be used to display how
+    much snow melts in between each time step.  This would mean the new value
+    in each of the cells would represent the amount of snow that melted since
+    the last time step.  The attributes of all of the cells can then be summed
+    to calculate the total amount of expected runoff for the watershed due to
+    snowmelt for any given month.
+  </p>
+  <p>
+    In terms of regional analysis, the intersect tool or something similar
+    will need to be used to get the grid cells that only include the region
+    specified by the user.
+  </p>
+  <br>
+  <p><b>What are the basic functions that will exist on the front-end user interface?</b></p>
+  <p>
+    There are a number of basic functions that we intend to include in the
+    front-end user interface.  One of the main functions that was mentioned
+    earlier would be to add the ability to upload a shapefile to the interface
+    that represents a particular region or watershed.  If there seems to be
+    problems with this idea(such as a lack of resolution, problems with the
+    shapefile being too detailed, etc) we can also consider simply adding a
+    drop-down menu that facilitates regional analysis of the world’s major
+    mountain ranges.
+   </p>
+   <p>
+    An alternative to the above feature would be to allow the user to click out
+    his/her own polygon in the interface and just get the data that resides within
+    the boundaries of that polygon.
+  </p>
+  <p>
+    Another function would be to add a text box where the user can input a loss
+    coefficient.  This will allow the user to account for the losses that may
+    occur as the water travels to the outlet point of the
+    watershed(evaporation, soil infiltration, etc).
+  </p>
+  <p>
+      We’d also like to have the snowpack data display as both a map and an animation.
+      This would allow each time step for the data could be played consecutively as
+      an animation to show the change in snowpack over each time step.  We intend to
+      make this a feature for both the global and local regional maps.
+  </p>
+  <p>
+    A final option would be to add a time series chart in the interface to
+    allow the user to see the change in snowpack in graphical form.  Ideally
+    the user would be able to download the chart as an image or possibly even
+    the data as a .csv file.
+  </p>
+  <br>
+  <p><b>How will you store the code (GitHub under what account?)</b></p>
+  <p>
+    The code will be stored on GitHub under the account tmcstraw.
+    <a href="https://github.com/tmcstraw/the_snowmen_snowpack_viewer.git">https://github.com/tmcstraw/the_snowmen_snowpack_viewer.git</a>
+  </p>
+  <br>
+  <p><b>What license will you license the source code under?</b></p>
+  <p>
+    We will use an open source license for the code used in the application.
+  </p>
+  <br>
+  <p><b>Who on the team will be responsible for what part of the project?</b></p>
+  <p>
+    The task assignments of this project are subject to change, however we
+    have outlined who will take charge of which parts of the development of
+    the application.  Although we will all contribute to each part of the
+    development process, Jason is going to take the lead with collecting the
+    data sources and the different formats in which we can find the snowpack
+    information. Travis is going to lead the webapp developing process and
+    Jorge is going to take the lead in the calculation process to estimate
+    the runoff from the snowmelt.  We will all contribute to the development
+    of the front-end user interface with Jason as the organizer of that,
+    however Travis will lead the development of the map layers and the work
+    that has to be done with Geoserver.  As mentioned above, Jorge will mainly
+    work with the geoprocessing portion of the project and the parts of the
+    calculations that will need to be run on the ArcGIS server.
+  </p>
+  <br>
+  <p><b>Conclusion</b></p>
+  <p>
+    We hope to create a tool that can be useful in viewing the change in
+    snowpack in all of the major mountain ranges throughout the world.  We
+    also hope to be able to provide users with the ability to analyze specific
+    regions that interest them and to provide them with a tool that can help
+    predict the total estimated runoff due to snowpack for particular timesteps.
+  </p>
+  <br>
+
+  <a href="https://drive.google.com/open?id=15PAaw-AgvL7uj5bHue-CL9RzfiBIGX4l" class="embed">Download file</a>
+  <br><br>
+
+  <br>
+  <div class="row" style="text-align: center;">
+        <iframe src="http://docs.google.com/gview?url=http://et.byu.edu/~tmcstraw/proposal.pdf&embedded=true" align="middle" style="width:90%; height:500px;" frameborder="0"></iframe>
+  </div>
+
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+{% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+        </div>
+        <div class="modal-body">
+          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
+          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
+          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block app_actions %}
+
+{% endblock %}
