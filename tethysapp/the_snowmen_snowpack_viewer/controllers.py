@@ -26,7 +26,7 @@ def home(request):
 
 def mapview(request):
     """
-    Controller for the app home page.
+    Controller for the app mapview page.
     """
 
     date_picker_initial = DatePicker(name='date1',
@@ -153,7 +153,7 @@ def mapview(request):
 
 def data_services(request):
     """
-    Controller for the app home page.
+    Controller for the app services page.
     """
 
 
@@ -161,33 +161,30 @@ def data_services(request):
 
 def about(request):
     """
-    Controller for the app home page.
+    Controller for the app about page.
     """
 
     return render(request, 'the_snowmen_snowpack_viewer/about.html')
 
 def proposal(request):
     """
-    Controller for the app home page.
+    Controller for the app proposal page.
     """
 
     return render(request, 'the_snowmen_snowpack_viewer/proposal.html')
 
 def mockup(request):
     """
-    Controller for the app home page.
+    Controller for the app mockup page.
     """
 
     return render(request, 'the_snowmen_snowpack_viewer/mockup.html')
 
-def polygontool(request):
-    """
-    Controller for the app home page.
-    """
-
-    return render(request, 'the_snowmen_snowpack_viewer/polygontool.html')
-
 def animation(request):
+
+    """
+    Controller for the app animation page.
+    """
 
     add_region_button = Button(
         display_text='Add Region',
@@ -245,16 +242,18 @@ def animation(request):
 
 def gpservice(request):
     """
-    Controller for the app home page.
+    Controller for the app gpservice page.
     """
 
 
     return render(request, 'the_snowmen_snowpack_viewer/gpservice.html')
 
 def modis(request):
+
     """
-    Controller for the app home page.
+    Controller for the app modis page.
     """
+
     time_series_plot = LinePlot(
     height='500px',
     width='500px',
@@ -281,6 +280,7 @@ def modis(request):
        },
     ]
     )
+
     add_region_button = Button(
         display_text='Add Region',
         name='add-region-button',
@@ -308,7 +308,229 @@ def modis(request):
     context = {"time_series_plot": time_series_plot,
                "add_region_button": add_region_button,
                'date_picker': date_picker,
-            'date_picker_error': date_picker_error,
+               'date_picker_error': date_picker_error,
     }
 
     return render(request, 'the_snowmen_snowpack_viewer/modis.html')
+
+
+def region(request):
+    """
+    Controller for the app region page.
+    """
+
+    date_picker_initial = DatePicker(name='date1',
+                                     display_text='Initial Date',
+                                     autoclose=True,
+                                     format='MM d, yyyy',
+                                     start_date='1/1/2000',
+                                     start_view='decade',
+                                     today_button=False,
+                                     initial='January 1, 2018')
+
+    timeseries_plot = TimeSeries(
+        height='500px',
+        width='500px',
+        engine='highcharts',
+        title='Irregular Timeseries Plot',
+        y_axis_title='Snow depth',
+        y_axis_units='m',
+        series=[{
+            'name': 'Winter 2007-2008',
+            'data': [
+                [datetime(2008, 12, 2), 0.8],
+                [datetime(2008, 12, 9), 0.6],
+                [datetime(2008, 12, 16), 0.6],
+                [datetime(2008, 12, 28), 0.67],
+                [datetime(2009, 1, 1), 0.81],
+                [datetime(2009, 1, 8), 0.78],
+                [datetime(2009, 1, 12), 0.98],
+                [datetime(2009, 1, 27), 1.84],
+                [datetime(2009, 2, 10), 1.80],
+                [datetime(2009, 2, 18), 1.80],
+                [datetime(2009, 2, 24), 1.92],
+                [datetime(2009, 3, 4), 2.49],
+                [datetime(2009, 3, 11), 2.79],
+                [datetime(2009, 3, 15), 2.73],
+                [datetime(2009, 3, 25), 2.61],
+                [datetime(2009, 4, 2), 2.76],
+                [datetime(2009, 4, 6), 2.82],
+                [datetime(2009, 4, 13), 2.8],
+                [datetime(2009, 5, 3), 2.1],
+                [datetime(2009, 5, 26), 1.1],
+                [datetime(2009, 6, 9), 0.25],
+                [datetime(2009, 6, 12), 0]
+            ]
+        }]
+    )
+
+    submit_region_button = Button(
+        display_text='Submit Region',
+        name='submit-region-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    draw_polygon_button = Button(
+        display_text='Draw Polygon',
+        name='draw-polygon-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    context = {
+        'date_picker_initial': date_picker_initial,
+        'timeseries_plot': timeseries_plot,
+        'submit_region_button': submit_region_button,
+        'draw_polygon_button': draw_polygon_button,
+    }
+
+    return render(request, 'the_snowmen_snowpack_viewer/region.html', context)
+
+def polygontool(request):
+    """
+    Controller for the app polygon page.
+    """
+
+    date_picker_initial = DatePicker(name='date1',
+                                     display_text='Initial Date',
+                                     autoclose=True,
+                                     format='MM d, yyyy',
+                                     start_date='1/1/2000',
+                                     start_view='decade',
+                                     today_button=False,
+                                     initial='January 1, 2018')
+
+    draw_polygon_button = Button(
+        display_text='Draw Polygon',
+        name='draw-polygon-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    submit_region_button = Button(
+        display_text='Submit Region',
+        name='submit-region-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    context = {
+        'date_picker_initial': date_picker_initial,
+        'draw_polygon_button': draw_polygon_button,
+        'submit_region_button': submit_region_button
+    }
+
+    return render(request, 'the_snowmen_snowpack_viewer/polygontool.html', context)
+
+def bufferpointtool(request):
+    """
+    Controller for the app bufferpointtool.
+    """
+
+    date_picker_initial = DatePicker(name='date1',
+                                     display_text='Initial Date',
+                                     autoclose=True,
+                                     format='MM d, yyyy',
+                                     start_date='1/1/2000',
+                                     start_view='decade',
+                                     today_button=False,
+                                     initial='January 1, 2018')
+
+    bufferPoint_button = Button(
+        display_text='Buffer Point',
+        name='bufferPoint-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    submit_region_button = Button(
+        display_text='Submit Region',
+        name='submit-region-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    context = {
+        'date_picker_initial': date_picker_initial,
+        'bufferPoint_button': bufferPoint_button,
+        'submit_region_button': submit_region_button
+    }
+
+    return render(request, 'the_snowmen_snowpack_viewer/bufferpointtool.html', context)
+
+def watershedtool(request):
+    """
+    Controller for the app watershedtool page.
+    """
+
+    date_picker_initial = DatePicker(name='date1',
+                                     display_text='Initial Date',
+                                     autoclose=True,
+                                     format='MM d, yyyy',
+                                     start_date='1/1/2000',
+                                     start_view='decade',
+                                     today_button=False,
+                                     initial='January 1, 2018')
+
+    delineateWatershed_button = Button(
+        display_text='Delineate Watershed',
+        name='delineateWatershed-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    submit_region_button = Button(
+        display_text='Submit Region',
+        name='submit-region-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
+
+    context = {
+        'date_picker_initial': date_picker_initial,
+        'delineateWatershed_button': delineateWatershed_button,
+        'submit_region_button': submit_region_button
+    }
+
+    return render(request, 'the_snowmen_snowpack_viewer/watershedtool.html', context)

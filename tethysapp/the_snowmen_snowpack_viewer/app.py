@@ -74,6 +74,21 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 url='the-snowmen-snowpack-viewer/polygontool',
                 controller='the_snowmen_snowpack_viewer.controllers.polygontool'
             ),
+            UrlMap(
+                name='region',
+                url='the-snowmen-snowpack-viewer/region',
+                controller='the_snowmen_snowpack_viewer.controllers.region'
+            ),
+            UrlMap(
+                name='bufferpointtool',
+                url='the-snowmen-snowpack-viewer/bufferpointtool',
+                controller='the_snowmen_snowpack_viewer.controllers.bufferpointtool'
+            ),
+            UrlMap(
+                name='watershedtool',
+                url='the-snowmen-snowpack-viewer/watershedtool',
+                controller='the_snowmen_snowpack_viewer.controllers.watershedtool'
+            ),
         )
 
         return url_maps

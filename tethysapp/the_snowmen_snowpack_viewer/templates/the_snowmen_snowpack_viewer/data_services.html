@@ -9,145 +9,34 @@
 
 {% block app_content %}
   <h1>Data Services</h1>
-  <p>This app contains data from Snotel network stations across the Wasatch Mountain Region.  These stations provide snowfall data that helps the application calculate the changes in snowpack over time and is provided using a feature service.  The raw data can be found here:
-    <br><br>https://wcc.sc.egov.usda.gov/nwcc/rgrpt?report=daily_snowdelta_7day&state=ut
-    <br><br>The app also includes DEM data from the utah.gov website which is provided by a web mapping service.
-    <br>The data is being hosted on a server in the BYU Hydroinformatics laboratory at Drew's workstation,
-    and the app uses an ArcGIS server as its processing engine which is also provided by BYU.
-    <br>
-    <br>The raw data can be viewed and accessed from our geoserver here:
-    <br><br> - <a href="http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen" target="_blank">Utah DEM Data</a>
-    <br><br> - <a href="http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS" target="_blank">Snowtel Data</a>
-  </p>
+
+  <h4>
+    The Snow Pack Project uses:
+    <li> The Snotel Network Stations in the State of Utah </li>
+    <li> The Counties in the State of Utah </li>
+    <li> The Digital Elevation Model </li>
+  </h4>
+  <h3>
+    The shapefile of <b>Snotel Network Stations</b> is constructed from the database of SNOTEL stations and it is hosting as a
+    <a href="http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Snotel_Network/FeatureServer/0">Feature Service</a>
+    in the <a href="http://geoserver2.byu.edu/arcgis/">BYU Geoserver</a>. These stations provide snowfall data that helps the
+    application calculate the changes in snowpack over time and is provided using a feature service. The raw data can be found
+    here: <a href="https://wcc.sc.egov.usda.gov/nwcc/rgrpt?report=daily_snowdelta_7day&state=ut">https://wcc.sc.egov.usda.gov/nwcc/rgrpt?report=daily_snowdelta_7day&state=ut</a>
+  </h3>
+  <h3>
+    The shapefile of <b>Utah Counties</b> is downloaded from the Utah Automated Geographic Reference Center and it is hosting as a
+    <a href="http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Utah_Counties/FeatureServer/0">Feature Service</a>
+    in the <a href="http://geoserver2.byu.edu/arcgis/">BYU Geoserver</a>.
+  </h3>
+  <h3>
+    The <b>Utah Digital Elevation Model</b> is a rastter file downloaded from the Hydrological data and maps based on SHuttle Elevation Derivatives at multiple Scales
+    that is based on high-resolution elevation data obtained during a Space Shuttle flight for NASA's Shuttle Radar Topography Mission (SRTM) and it is hosting as a
+    <a href="http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen/Utah_DEM/MapServer">Map Service</a> in the <a href="http://geoserver2.byu.edu/arcgis/">BYU Geoserver</a>.
+  </h3>
 <br>
 <br>
 <br>
 <br>
-
-<style>
-  html, body, #viewDiv {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-    width: 100%;
-  }
-</style>
-<link rel="stylesheet" href="https://js.arcgis.com/4.6/esri/css/main.css">
-<script src="https://js.arcgis.com/4.6/"></script>
-<script>
-require([
-  "esri/Map",
-  "esri/layers/GraphicsLayer",
-  "esri/Graphic",
-  "esri/geometry/Point",
-  "esri/tasks/Geoprocessor",
-  "esri/tasks/support/LinearUnit",
-  "esri/tasks/support/FeatureSet",
-  "esri/views/MapView",
-  "dojo/domReady!"
-], function(Map, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView){
-
-	//a map with basemap
-	var map = new Map({
-    basemap: "streets"
-	});
-
-    //a graphics layer to show input point and output polygon
-    var graphicsLayer = new GraphicsLayer();
-    map.add(graphicsLayer);
-
-    var view = new MapView({
-    container: "viewDiv",
-    map: map,
-	center: [-111.1, 39.1],
-	zoom: 6
-    });
-
-	// symbol for input point
-	var markerSymbol = {
-          type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-          color: [255, 0, 0],
-          outline: { // autocasts as new SimpleLineSymbol()
-            color: [255, 255, 255],
-            width: 2
-          }
-        };
-
-	// symbol for buffered polygon
-    var fillSymbol = {
-          type: "simple-fill", // autocasts as new SimpleFillSymbol()
-          color: [226, 119, 40, 0.75],
-          outline: { // autocasts as new SimpleLineSymbol()
-            color: [255, 255, 255],
-            width: 1
-          }
-        };
-
-	// Geoprocessing service url
-	var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/sherry/BufferPoints/GPServer/Buffer%20Points";
-
-    // create a new Geoprocessor
-	var gp = new Geoprocessor(gpUrl);
-	// define output spatial reference
-    gp.outSpatialReference = { // autocasts as new SpatialReference()
-          wkid: 102100 //EPSG3857
-        };
-	//add map click function
-    view.on("click", surface);
-
-	//main function
-    function bufferPoint(event) {
-
-          graphicsLayer.removeAll();
-          var point = new Point({
-            longitude: event.mapPoint.longitude,
-            latitude: event.mapPoint.latitude
-          });
-          var inputGraphic = new Graphic({
-            geometry: point,
-            symbol: markerSymbol
-          });
-          graphicsLayer.add(inputGraphic);
-          var inputGraphicContainer = [];
-          inputGraphicContainer.push(inputGraphic);
-          var featureSet = new FeatureSet();
-          featureSet.features = inputGraphicContainer;
-          var bfDistance = new LinearUnit();
-          bfDistance.distance = 100;
-          bfDistance.units = "miles";
-
-		  // input parameters
-          var params = {
-            "Point": featureSet,
-            "Distance": bfDistance
-          };
-          gp.submitJob(params).then(completeCallback, errBack, statusCallback);
-    }
-
-	function completeCallback(result){
-
-        gp.getResultData(result.jobId, "Output_Polygon").then(drawResult, drawResultErrBack);
-
-	}
-
-	function drawResult(data){
-	    var polygon_feature = data.value.features[0];
-		polygon_feature.symbol = fillSymbol;
-		graphicsLayer.add(polygon_feature);
-	}
-
-	function drawResultErrBack(err) {
-        console.log("draw result error: ", err);
-    }
-
-	function statusCallback(data) {
-        console.log(data.jobStatus);
-    }
-    function errBack(err) {
-        console.log("gp error: ", err);
-    }
-});
-</script>
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
