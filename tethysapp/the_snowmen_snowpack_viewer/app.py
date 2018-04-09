@@ -35,16 +35,6 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 controller='the_snowmen_snowpack_viewer.controllers.about'
             ),
             UrlMap(
-                name='data_services',
-                url='the-snowmen-snowpack-viewer/data_services',
-                controller='the_snowmen_snowpack_viewer.controllers.data_services'
-            ),
-            UrlMap(
-                name='mapview',
-                url='the-snowmen-snowpack-viewer/mapview',
-                controller='the_snowmen_snowpack_viewer.controllers.mapview'
-            ),
-            UrlMap(
                 name='proposal',
                 url='the-snowmen-snowpack-viewer/proposal',
                 controller='the_snowmen_snowpack_viewer.controllers.proposal'
@@ -54,6 +44,12 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 url='the-snowmen-snowpack-viewer/mockup',
                 controller='the_snowmen_snowpack_viewer.controllers.mockup'
             ),
+            UrlMap(
+                name='data_services',
+                url='the-snowmen-snowpack-viewer/data_services',
+                controller='the_snowmen_snowpack_viewer.controllers.data_services'
+            ),
+
             UrlMap(
                 name='animation',
                 url='the-snowmen-snowpack-viewer/animation',
@@ -78,11 +74,6 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 name='region',
                 url='the-snowmen-snowpack-viewer/region',
                 controller='the_snowmen_snowpack_viewer.controllers.region'
-            ),
-            UrlMap(
-                name='bufferpointtool',
-                url='the-snowmen-snowpack-viewer/bufferpointtool',
-                controller='the_snowmen_snowpack_viewer.controllers.bufferpointtool'
             ),
             UrlMap(
                 name='watershedtool',

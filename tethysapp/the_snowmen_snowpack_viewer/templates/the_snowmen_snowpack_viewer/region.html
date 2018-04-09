@@ -23,7 +23,6 @@
 
 <br>
   <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
-  <li class="{% if request.path == mapview %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
   <li class="{% if request.path == proposal %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
   <li class="{% if request.path == mockup %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
   <li class="{% if request.path == data_services %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
@@ -42,8 +41,7 @@
 {% gizmo submit_region_button %}
 
 <br>
-   <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
-  <li class="{% if request.path == bufferpointtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:bufferpointtool' %}">BufferPoint Tool</a></li>
+  <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
   <li class="{% if request.path == watershedtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:watershedtool' %}">Watershed Tool</a></li>
   <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
 <br>

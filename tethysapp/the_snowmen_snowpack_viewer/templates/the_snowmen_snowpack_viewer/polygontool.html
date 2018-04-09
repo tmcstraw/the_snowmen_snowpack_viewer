@@ -10,23 +10,14 @@
 
 {% block app_navigation_items %}
 {% url 'the_snowmen_snowpack_viewer:home' as home %}
-{% url 'the_snowmen_snowpack_viewer:mapview' as mapview %}
-{% url 'the_snowmen_snowpack_viewer:proposal' as proposal %}
-{% url 'the_snowmen_snowpack_viewer:mockup' as mockup %}
-{% url 'the_snowmen_snowpack_viewer:data_services' as data_services %}
 {% url 'the_snowmen_snowpack_viewer:animation' as animation %}
 {% url 'the_snowmen_snowpack_viewer:polygontool' as polygontool %}
 {% url 'the_snowmen_snowpack_viewer:region' as region %}
-{% url 'the_snowmen_snowpack_viewer:bufferpointtool' as bufferpointtool %}
 {% url 'the_snowmen_snowpack_viewer:watershedtool' as watershedtool %}
 {% url 'the_snowmen_snowpack_viewer:about' as about %}
 
 <br>
   <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
-  <li class="{% if request.path == mapview %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mapview' %}">Map View</a></li>
-  <li class="{% if request.path == proposal %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:proposal' %}">Project Proposal</a></li>
-  <li class="{% if request.path == mockup %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:mockup' %}">Mockup Wireframes</a></li>
-  <li class="{% if request.path == data_services %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:data_services' %}">Data Services</a></li>
   <li class="{% if request.path == animation %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
   <li class="{% if request.path == region %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:region' %}">Region</a></li>
   <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
@@ -44,7 +35,6 @@
 {% gizmo submit_region_button %}
 
 <br>
-  <li class="{% if request.path == bufferpointtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:bufferpointtool' %}">BufferPoint Tool</a></li>
   <li class="{% if request.path == watershedtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:watershedtool' %}">Watershed Tool</a></li>
   <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
 <br>
