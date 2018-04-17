@@ -99,7 +99,19 @@ require([
 
       // Geoprocessing service url
       var gpUrl2 = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/CreateWatershedPolygon/GPServer/Create%20Watershed%20Polygon";
-      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Polyclip/GPServer/polyclip";
+      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
+
+      $('#select_date').on('change', function () {
+                specify_service();
+      });
+
+
+      specify_service = function(){
+            // gs_layer_list.forEach(function(item){
+            var store_name = $("#select_date").find('option:selected').val();
+            gp_url = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+      };
+
 
       // create a new Geoprocessor
       var gp = new Geoprocessor(gpUrl);
@@ -189,6 +201,8 @@ require([
 
 		var featureSet = new FeatureSet();
                 featureSet.features = data.value.features;
+
+
 
 		params = {
             "Polygon": featureSet

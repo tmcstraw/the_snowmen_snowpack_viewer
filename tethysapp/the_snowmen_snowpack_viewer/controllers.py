@@ -61,55 +61,69 @@ def animation(request):
     Controller for the app animation page.
     """
 
-    add_region_button = Button(
-        display_text='Add Region',
-        name='add-region-button',
-        icon='glyphicon glyphicon-plus',
-        style='success'
+    # Horizontal Button Group
+
+    select_date = SelectInput(
+        display_text='Select a day',
+        name='select_date',
+        multiple=False,
+        original=True,
+        options=[('January 1, 2017', 'Jan1_2017'),
+                 ('January 2, 2017', 'Jan2_2017'),
+                 ('January 3, 2017', 'Jan3_2017'),
+                 ('January 4, 2017', 'Jan4_2017'),
+                 ('January 5, 2017', 'Jan5_2017'),
+                 ('January 6, 2017', 'Jan6_2017'),
+                 ('January 7, 2017', 'Jan7_2017'),
+                 ('January 8, 2017', 'Jan8_2017'),
+                 ('January 9, 2017', 'Jan9_2017'),
+                 ('January 10, 2017', 'Jan10_2017'),
+                 ('January 11, 2017', 'Jan11_2017'),
+                 ('January 12, 2017', 'Jan12_2017'),
+                 ('January 13, 2017', 'Jan13_2017'),
+                 ('January 14, 2017', 'Jan14_2017'),
+                 ('January 15, 2017', 'Jan15_2017'),
+                 ('January 16, 2017', 'Jan16_2017'),
+                 ('January 17, 2017', 'Jan17_2017'),
+                 ('January 18, 2017', 'Jan18_2017'),
+                 ('January 19, 2017', 'Jan19_2017'),
+                 ('January 20, 2017', 'Jan20_2017'),
+                 ('January 21, 2017', 'Jan21_2017'),
+                 ('January 22, 2017', 'Jan22_2017'),
+                 ('January 23, 2017', 'Jan23_2017'),
+                 ('January 24, 2017', 'Jan24_2017'),
+                 ('January 25, 2017', 'Jan25_2017'),
+                 ('January 26, 2017', 'Jan26_2017'),
+                 ('January 27, 2017', 'Jan27_2017'),
+                 ('January 28, 2017', 'Jan28_2017'),
+                 ('January 29, 2017', 'Jan29_2017'),
+                 ('January 30, 2017', 'Jan30_2017'),
+                 ('January 31, 2017', 'Jan31_2017'),
+                 ],
+        initial=['January 1, 2017']
+
     )
 
-    # Horizontal Button Group
-    play_button = Button(display_text='Play',
-                        icon='glyphicon glyphicon-play',
-                        style='success')
-    pause_button = Button(display_text='Pause',
-                           icon='glyphicon glyphicon-pause',
-                           style='success')
-    stop_button = Button(display_text='Stop',
-                         icon='glyphicon glyphicon-question-stop',
-                         style='success')
-    horizontal_buttons = ButtonGroup(buttons=[play_button, pause_button, stop_button])
+    view_animation_button = Button(
+        display_text='View Animation',
+        name='view-animation-button',
+        icon='glyphicon glyphicon-play',
+        style='',
+        attributes={"onclick": "showanimationmodal()"},
+    )
 
-    sliderVideo = RangeSlider(display_text='Animation',
-                          name='sliderVideo',
-                          min=0,
-                          max=100,
-                          initial=0,
-                          step=1)
+    close_modal_button = Button(
+        display_text='Close',
+        name='close-modal-button',
+        icon='glyphicon',
+        style='',
+        attributes={"onclick": "hideanimationmodal()"},
+    )
 
-    date_picker_initial = DatePicker(name='date_ini',
-                                     display_text='Initial Date',
-                                     autoclose=True,
-                                     format='MM d, yyyy',
-                                     start_date='1/1/2017',
-                                     start_view='decade',
-                                     today_button=False,
-                                     initial='January 1, 2017')
-
-    date_picker_final = DatePicker(name='date_end',
-                                   display_text='Final Date',
-                                   autoclose=True,
-                                   format='MM d, yyyy',
-                                   start_date='1/31/2017',
-                                   start_view='decade',
-                                   today_button=False,
-                                   initial='January 31, 2017')
     context = {
-        'add_region_button': add_region_button,
-        'horizontal_buttons': horizontal_buttons,
-        'sliderVideo': sliderVideo,
-        'date_picker_initial': date_picker_initial,
-        'date_picker_final': date_picker_final
+        'close_modal_button': close_modal_button,
+        'view_animation_button': view_animation_button,
+        'select_date': select_date,
     }
 
 
@@ -277,14 +291,46 @@ def polygontool(request):
     Controller for the app polygon page.
     """
 
-    date_picker_initial = DatePicker(name='date1',
-                                     display_text='Initial Date',
-                                     autoclose=True,
-                                     format='MM d, yyyy',
-                                     start_date='1/1/2000',
-                                     start_view='decade',
-                                     today_button=False,
-                                     initial='January 1, 2018')
+    select_date = SelectInput(
+        display_text='Select a day',
+        name='select_date',
+        multiple=False,
+        original=True,
+        options=[('January 1, 2017', 'Jan1 2017'),
+                 ('January 2, 2017', 'Jan2 2017'),
+                 ('January 3, 2017', 'Jan3 2017'),
+                 ('January 4, 2017', 'Jan4 2017'),
+                 ('January 5, 2017', 'Jan5 2017'),
+                 ('January 6, 2017', 'Jan6 2017'),
+                 ('January 7, 2017', 'Jan7 2017'),
+                 ('January 8, 2017', 'Jan8 2017'),
+                 ('January 9, 2017', 'Jan9 2017'),
+                 ('January 10, 2017', 'Jan10 2017'),
+                 ('January 11, 2017', 'Jan11 2017'),
+                 ('January 12, 2017', 'Jan12 2017'),
+                 ('January 13, 2017', 'Jan13 2017'),
+                 ('January 14, 2017', 'Jan14 2017'),
+                 ('January 15, 2017', 'Jan15 2017'),
+                 ('January 16, 2017', 'Jan16 2017'),
+                 ('January 17, 2017', 'Jan17 2017'),
+                 ('January 18, 2017', 'Jan18 2017'),
+                 ('January 19, 2017', 'Jan19 2017'),
+                 ('January 20, 2017', 'Jan20 2017'),
+                 ('January 21, 2017', 'Jan21 2017'),
+                 ('January 22, 2017', 'Jan22 2017'),
+                 ('January 23, 2017', 'Jan23 2017'),
+                 ('January 24, 2017', 'Jan24 2017'),
+                 ('January 25, 2017', 'Jan25 2017'),
+                 ('January 26, 2017', 'Jan26 2017'),
+                 ('January 27, 2017', 'Jan27 2017'),
+                 ('January 28, 2017', 'Jan28 2017'),
+                 ('January 29, 2017', 'Jan29 2017'),
+                 ('January 30, 2017', 'Jan30 2017'),
+                 ('January 31, 2017', 'Jan31 2017'),
+                 ],
+        initial=['January 1, 2017']
+    )
+
 
     draw_polygon_button = Button(
         display_text='Draw Polygon',
@@ -311,7 +357,7 @@ def polygontool(request):
     )
 
     context = {
-        'date_picker_initial': date_picker_initial,
+        'select_date': select_date,
         'draw_polygon_button': draw_polygon_button,
         'submit_region_button': submit_region_button
     }
@@ -369,14 +415,45 @@ def watershedtool(request):
     Controller for the app watershedtool page.
     """
 
-    date_picker_initial = DatePicker(name='date1',
-                                     display_text='Initial Date',
-                                     autoclose=True,
-                                     format='MM d, yyyy',
-                                     start_date='1/1/2000',
-                                     start_view='decade',
-                                     today_button=False,
-                                     initial='January 1, 2018')
+    select_date = SelectInput(
+        display_text='Select a day',
+        name='select_date',
+        multiple=False,
+        original=True,
+        options=[('January 1, 2017', 'Jan1 2017'),
+                 ('January 2, 2017', 'Jan2 2017'),
+                 ('January 3, 2017', 'Jan3 2017'),
+                 ('January 4, 2017', 'Jan4 2017'),
+                 ('January 5, 2017', 'Jan5 2017'),
+                 ('January 6, 2017', 'Jan6 2017'),
+                 ('January 7, 2017', 'Jan7 2017'),
+                 ('January 8, 2017', 'Jan8 2017'),
+                 ('January 9, 2017', 'Jan9 2017'),
+                 ('January 10, 2017', 'Jan10 2017'),
+                 ('January 11, 2017', 'Jan11 2017'),
+                 ('January 12, 2017', 'Jan12 2017'),
+                 ('January 13, 2017', 'Jan13 2017'),
+                 ('January 14, 2017', 'Jan14 2017'),
+                 ('January 15, 2017', 'Jan15 2017'),
+                 ('January 16, 2017', 'Jan16 2017'),
+                 ('January 17, 2017', 'Jan17 2017'),
+                 ('January 18, 2017', 'Jan18 2017'),
+                 ('January 19, 2017', 'Jan19 2017'),
+                 ('January 20, 2017', 'Jan20 2017'),
+                 ('January 21, 2017', 'Jan21 2017'),
+                 ('January 22, 2017', 'Jan22 2017'),
+                 ('January 23, 2017', 'Jan23 2017'),
+                 ('January 24, 2017', 'Jan24 2017'),
+                 ('January 25, 2017', 'Jan25 2017'),
+                 ('January 26, 2017', 'Jan26 2017'),
+                 ('January 27, 2017', 'Jan27 2017'),
+                 ('January 28, 2017', 'Jan28 2017'),
+                 ('January 29, 2017', 'Jan29 2017'),
+                 ('January 30, 2017', 'Jan30 2017'),
+                 ('January 31, 2017', 'Jan31 2017'),
+                 ],
+        initial=['January 1, 2017']
+    )
 
     delineateWatershed_button = Button(
         display_text='Delineate Watershed',
@@ -403,9 +480,9 @@ def watershedtool(request):
     )
 
     context = {
-        'date_picker_initial': date_picker_initial,
         'delineateWatershed_button': delineateWatershed_button,
-        'submit_region_button': submit_region_button
+        'submit_region_button': submit_region_button,
+        'select_date': select_date,
     }
 
     return render(request, 'the_snowmen_snowpack_viewer/watershedtool.html', context)

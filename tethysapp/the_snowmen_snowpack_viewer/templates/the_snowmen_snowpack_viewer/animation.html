@@ -12,41 +12,29 @@
 {% url 'the_snowmen_snowpack_viewer:home' as home %}
 {% url 'the_snowmen_snowpack_viewer:animation' as animation %}
 {% url 'the_snowmen_snowpack_viewer:polygontool' as polygontool %}
-{% url 'the_snowmen_snowpack_viewer:region' as region %}
 {% url 'the_snowmen_snowpack_viewer:watershedtool' as watershedtool %}
 {% url 'the_snowmen_snowpack_viewer:about' as about %}
 
 <br>
   <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
   <li class="{% if request.path == animation %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
-  <li class="separator"></li>
-<p>Select a Day</p>
-{% gizmo date_picker_initial %}
-{% gizmo date_picker_final %}
-
-<br>
-<h4>Select Display Layers</h4>
-<p> View Utah Digital Elevation Model <input type="checkbox" checked="true" id="Utah_DEM" onClick="showHide();"/> </p>
-<p> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </p>
-<p> View Utah Counties <input type="checkbox" checked="true" id="Utah_Counties" onClick="showHide();"/> </p>
-<p> View Utah Flow Accumulation Raster <input type="checkbox" checked="true" id="Utah_Accumulation" onClick="showHide();"/> </p>
-<br>
   <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
-  <li class="{% if request.path == region %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:region' %}">Region</a></li>
   <li class="{% if request.path == watershedtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:watershedtool' %}">Watershed Tool</a></li>
   <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
+  <li class="separator"></li>
 <br>
+<h4>Select Display Layers</h4>
+<p> View Snotel Stations <input type="checkbox" checked="true" id="Snotel_Stations" onClick="showHide();"/> </p>
+
 <br>
+{% gizmo select_date %}
+{% gizmo view_animation_button %}
 <div class="globe" id="waiting_output"></div>
 {% endblock %}
 
 {% block app_content %}
   <h1>Snowpack Viewer</h1>
-  <p></p>
-  {% gizmo horizontal_buttons %}
-  {% gizmo sliderVideo %}
-  <br>
-  <div id="showMapView" style="margin:10%; width:900px; height:700px;"></div>
+  <div id="showMapView" style="margin:5%; width:1000px; height:700px;"></div>
 <br>
 
 {% endblock %}
@@ -74,10 +62,31 @@
     </div>
   </div>
 
+<form id="animationmod" class="modal fade" role="dialog" >
+      <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+              <h3 align="center"><b>January 2017 Animation</b></h3>
+              <div id="dimtable">
+
+
+              </div>
+              <div align ="center" id="modalbut">
+                  <br>
+                <iframe align="center" width="500" height="300" src="https://www.youtube.com/embed/RyQ-SHhjfKg?rel=0" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                <br>
+                     <div align="right"  class="close-button" style="margin:5%;">
+                     {% gizmo close_modal_button %}
+                     </div>
+              </div>
+          </div>
+         <!--End modal content-->
+      </div>
+  </form>
+
 {% endblock %}
 
 {% block app_actions %}
-{% gizmo add_region_button %}
 {% endblock %}
 
 {% block content_dependent_styles %}

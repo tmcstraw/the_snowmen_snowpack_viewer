@@ -2,8 +2,10 @@ var map;
 var snowtel_network_layer;
 var inputGraphic;
 var view;
+var wms_layer;
 
 require([
+  "esri/tasks/support/RasterData",
   "esri/Map",
   "esri/layers/MapImageLayer",
   "esri/layers/FeatureLayer",
@@ -18,7 +20,7 @@ require([
   "esri/views/MapView",
   "dojo/domReady!"
 
-  ], function showHide (Map, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
+  ], function showHide (RasterData, Map, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
 	  map = new Map ({
 		  basemap: "topo"
 	  });
@@ -50,6 +52,8 @@ require([
 
 	  map.add(snowtel_network_layer);
 
+
+
 	  //a graphics layer to show input point and output polygon
 	  var graphicsLayer = new GraphicsLayer();
 	  map.add(graphicsLayer);
@@ -72,7 +76,20 @@ require([
       });
 
       // Geoprocessing service url
-      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Polyclip/GPServer/polyclip";
+      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
+
+      $('#select_date').on('change', function () {
+                geourl();
+      });
+
+
+      geourl = function(){
+            // gs_layer_list.forEach(function(item){
+            var store_name = $("#select_date").find('option:selected').val();
+            var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+      };
+
+
 
       // create a new Geoprocessor
       var gp = new Geoprocessor(gpUrl);
@@ -85,6 +102,11 @@ require([
       // input parameters
       var params;
 
+
+
+
+
+
       //main function
       function geoServices(graphicsLayer) {
 
@@ -92,7 +114,8 @@ require([
                      view: view
             });
 
-            enableCreatePolygon(draw, view, graphicsLayer)
+            enableCreatePolygon(draw, view, graphicsLayer);
+
        }
 
 
@@ -115,17 +138,21 @@ require([
             hide_buttons()
             var resultLayer = gp.getResultMapImageLayer(result.jobId);
             resultLayer.opacity = 0.7;
-            resultLayer.title = "Reclass_MOD_11_Clip";
+            resultLayer.title = "result";
+
+            // remove drawn polygon
+
 
             // add the result layer to the map
             map.layers.add(resultLayer);
+
 
 	    }
 
 	  function drawResult(data){
 	    var polygon_feature = data.value.features[0];
 		polygon_feature.symbol = fillSymbol;
-		graphicsLayer.add(polygon_feature);
+//		graphicsLayer.add(polygon_feature);
 	  }
 
 	  function drawResultErrBack(err) {
@@ -170,7 +197,7 @@ require([
                 });
         }
 
-      function createPolygonGraphic(graphicsLayer, view, vertices,){
+      function createPolygonGraphic(graphicsLayer, view, vertices){
                 graphicsLayer.removeAll();
                 var polygon = {
                     type: "polygon", // autocasts as Polygon
@@ -199,9 +226,11 @@ require([
                 var featureSet = new FeatureSet();
                 featureSet.features = inputGraphicContainer;
 
+
                 // input parameters
                 params = {
                     "Polygon": featureSet,
+
 
                 };
       }

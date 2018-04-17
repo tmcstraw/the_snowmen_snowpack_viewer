@@ -18,15 +18,12 @@
 
 {% url 'the_snowmen_snowpack_viewer:animation' as animation %}
 {% url 'the_snowmen_snowpack_viewer:polygontool' as polygontool %}
-{% url 'the_snowmen_snowpack_viewer:region' as region %}
 {% url 'the_snowmen_snowpack_viewer:watershedtool' as watershedtool %}
 {% url 'the_snowmen_snowpack_viewer:about' as about %}
 
   <li class="title"></li>
   <li class="{% if request.path == home %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:home' %}">Home</a></li>
-  <li class="separator"></li>
   <li class="{% if request.path == animation %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:animation' %}">Animation</a></li>
-  <li class="{% if request.path == region %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:region' %}">Region</a></li>
   <li class="{% if request.path == polygontool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:polygontool' %}">Polygon Tool</a></li>
   <li class="{% if request.path == watershedtool %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:watershedtool' %}">Watershed Tool</a></li>
   <li class="{% if request.path == about %}active{% endif %}"><a href="{% url 'the_snowmen_snowpack_viewer:about' %}">About</a></li>
