@@ -2,9 +2,13 @@ var map;
 var snowtel_network_layer;
 //var inputGraphic;
 var view;
+var gpUrl;
+var gp;
+
 
 require([
   "esri/Map",
+  "esri/widgets/Legend",
   "esri/layers/MapImageLayer",
   "esri/layers/FeatureLayer",
   "esri/views/2d/draw/Draw",
@@ -18,7 +22,7 @@ require([
   "esri/views/MapView",
   "dojo/domReady!"
 
-  ], function showHide (Map, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
+  ], function showHide (Map, Legend, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
 	  map = new Map ({
 		  basemap: "topo"
 	  });
@@ -72,9 +76,128 @@ require([
             // Set the action's visible property to true if the 'website' field value is not null, otherwise set it to false
             graphic.popupTemplate.actions.items[0].visible =
               graphic.attributes.website ? true : false;
+            stationcode = graphic['attributes']['id']
+            data = {"stationcode": stationcode}
+               $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    url: '/apps/the-snowmen-snowpack-viewer/get-time-series/',
+                    timeout: 3600000,
+                    success: function (response) {
+                        var snowDepth = response['time_series'];
+                        console.log(snowDepth)
+
+                        Highcharts.chart('timeSeriesPlot', {
+                            chart: {
+                                zoomType: 'x'
+                            },
+                            title: {
+                                text: 'Snow Depth in Utah, USA'
+                            },
+                            subtitle: {
+                                text: document.ontouchstart === undefined ?
+                                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                            },
+                            xAxis: {
+                                type: 'datetime',
+                                title: {
+                                    text: 'Time'
+                                }
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Snow Depth (in)'
+                                },
+                                min: 0
+                            },
+
+                            plotOptions: {
+                                area: {
+                                    fillColor: {
+                                        linearGradient: {
+                                            x1: 0,
+                                            y1: 0,
+                                            x2: 0,
+                                            y2: 1
+                                        },
+                                        stops: [
+                                            [0, Highcharts.getOptions().colors[0]],
+                                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                        ]
+                                    },
+                                    marker: {
+                                        radius: 2
+                                    },
+                                    lineWidth: 1,
+                                    states: {
+                                        hover: {
+                                            lineWidth: 1
+                                        }
+                                    },
+                                    threshold: null
+                                }
+                            },
+
+                            series: [{
+                                type: 'area',
+                                name: 'Snow Depth',
+                                data: snowDepth
+                            }],
+
+                        });
+
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+
+                    }
+               })
           }
         });
       });
+
+    getCookie = function(name) {
+        /**
+         * Gets CSRF Token.
+         *
+         * @parameter name
+         * @returns cookieValue
+         */
+
+        // Gets cookie value.
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    };
+
+      function ajaxCreateResource(data) {
+
+           $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                dataType: 'json',
+                data: data,
+                url: '/apps/the-snowmen-snowpack-viewer/get-time-series/',
+                timeout: 3600000,
+                success: function (response) {
+                console.log(response['time_series'])
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+
+                }
+           })
+      };
 
 
       // symbol for input point
@@ -99,19 +222,25 @@ require([
 
       // Geoprocessing service url
       var gpUrl2 = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/CreateWatershedPolygon/GPServer/Create%20Watershed%20Polygon";
-      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
+
+      // Geoprocessing service url
+      gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
 
       $('#select_date').on('change', function () {
-                specify_service();
+                geourl();
+                console.log("ran function");
       });
 
 
-      specify_service = function(){
+      geourl = function(){
             // gs_layer_list.forEach(function(item){
             var store_name = $("#select_date").find('option:selected').val();
-            gp_url = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+            gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+            console.log(gpUrl);
+            gp = new Geoprocessor(gpUrl);
       };
 
+      console.log(gpUrl);
 
       // create a new Geoprocessor
       var gp = new Geoprocessor(gpUrl);
@@ -168,6 +297,11 @@ require([
       	    gp2.submitJob(params2).then(completeCallback2, errBack, statusCallback);
       	});
 
+      	document.getElementsByName("refresh-button")[0].addEventListener("click", function(event){
+      	    location.reload();
+      	    console.log("layerremove");
+      	});
+
       function completeCallback2(result){
             hide_buttons()
             gp2.getResultData(result.jobId, "Output_Watershed").then(drawResult, drawResultErrBack);
@@ -190,7 +324,19 @@ require([
             resultLayer.title = "Reclass_MOD_11_Clip";
 
             // add the result layer to the map
+            graphicsLayer.removeAll();
+
             map.layers.add(resultLayer);
+
+            var legend = new Legend({
+                view: view,
+                layerInfos: [{
+                layer: resultLayer,
+                title: "Legend"
+                }]
+            });
+
+            view.ui.add(legend, "top-right");
 
 	    }
 

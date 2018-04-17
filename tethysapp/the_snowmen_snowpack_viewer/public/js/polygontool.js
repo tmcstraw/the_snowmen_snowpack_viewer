@@ -3,9 +3,14 @@ var snowtel_network_layer;
 var inputGraphic;
 var view;
 var wms_layer;
+var gpUrl;
+var gp;
+var stationcode;
+var resultLayer;
 
 require([
   "esri/tasks/support/RasterData",
+  "esri/widgets/Legend",
   "esri/Map",
   "esri/layers/MapImageLayer",
   "esri/layers/FeatureLayer",
@@ -20,7 +25,7 @@ require([
   "esri/views/MapView",
   "dojo/domReady!"
 
-  ], function showHide (RasterData, Map, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
+  ], function showHide (RasterData, Legend, Map, MapImageLayer,FeatureLayer, Draw, PolygonDrawAction, GraphicsLayer, Graphic, Point, Geoprocessor, LinearUnit, FeatureSet, MapView) {
 	  map = new Map ({
 		  basemap: "topo"
 	  });
@@ -71,28 +76,152 @@ require([
             // Set the action's visible property to true if the 'website' field value is not null, otherwise set it to false
             graphic.popupTemplate.actions.items[0].visible =
               graphic.attributes.website ? true : false;
+            stationcode = graphic['attributes']['id']
+            stationname = graphic['attributes']['name']
+
+            data = {"stationcode": stationcode}
+               $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    url: '/apps/the-snowmen-snowpack-viewer/get-time-series/',
+                    timeout: 3600000,
+                    success: function (response) {
+                        var snowDepth = response['time_series'];
+                        console.log(snowDepth)
+
+                        Highcharts.chart('timeSeriesPlot', {
+                            chart: {
+                                zoomType: 'x'
+                            },
+                            title: {
+                                text: stationname
+                            },
+                            subtitle: {
+                                text: document.ontouchstart === undefined ?
+                                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                            },
+                            xAxis: {
+                                type: 'datetime',
+                                title: {
+                                    text: 'Time'
+                                }
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Snow Depth (in)'
+                                },
+                                min: 0
+                            },
+
+                            plotOptions: {
+                                area: {
+                                    fillColor: {
+                                        linearGradient: {
+                                            x1: 0,
+                                            y1: 0,
+                                            x2: 0,
+                                            y2: 1
+                                        },
+                                        stops: [
+                                            [0, Highcharts.getOptions().colors[0]],
+                                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                        ]
+                                    },
+                                    marker: {
+                                        radius: 2
+                                    },
+                                    lineWidth: 1,
+                                    states: {
+                                        hover: {
+                                            lineWidth: 1
+                                        }
+                                    },
+                                    threshold: null
+                                }
+                            },
+
+                            series: [{
+                                type: 'area',
+                                name: 'Snow Depth',
+                                data: snowDepth
+                            }],
+
+                        });
+
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+
+                    }
+               })
           }
         });
       });
 
+    getCookie = function(name) {
+        /**
+         * Gets CSRF Token.
+         *
+         * @parameter name
+         * @returns cookieValue
+         */
+
+        // Gets cookie value.
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    };
+
+      function ajaxCreateResource(data) {
+
+           $.ajax({
+                type: 'POST',
+                headers: {'X-CSRFToken': getCookie('csrftoken')},
+                dataType: 'json',
+                data: data,
+                url: '/apps/the-snowmen-snowpack-viewer/get-time-series/',
+                timeout: 3600000,
+                success: function (response) {
+                console.log(response['time_series'])
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+
+                }
+           })
+      };
+
       // Geoprocessing service url
-      var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
+      gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/Jan1_2017/GPServer/polyclip";
 
       $('#select_date').on('change', function () {
                 geourl();
+                console.log("ran function");
       });
 
 
       geourl = function(){
             // gs_layer_list.forEach(function(item){
             var store_name = $("#select_date").find('option:selected').val();
-            var gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+            gpUrl = "http://geoserver2.byu.edu/arcgis/rest/services/The_SnowMen_FS/"+store_name+"/GPServer/polyclip";
+            console.log(gpUrl);
+            gp = new Geoprocessor(gpUrl);
       };
 
-
+      console.log(gpUrl);
 
       // create a new Geoprocessor
-      var gp = new Geoprocessor(gpUrl);
+      gp = new Geoprocessor(gpUrl);
 
       // define output spatial reference
       gp.outSpatialReference = { // autocasts as new SpatialReference()
@@ -101,10 +230,6 @@ require([
 
       // input parameters
       var params;
-
-
-
-
 
 
       //main function
@@ -117,10 +242,10 @@ require([
             enableCreatePolygon(draw, view, graphicsLayer);
 
        }
-
+        var resultLayer = [];
 
         document.getElementsByName("draw-polygon-button")[0].addEventListener("click", function(event){
-            geoServices(graphicsLayer)
+            geoServices(graphicsLayer);
 
             });
 
@@ -130,21 +255,37 @@ require([
       	    gp.submitJob(params).then(completeCallback, errBack, statusCallback);
       	});
 
+      	document.getElementsByName("refresh-button")[0].addEventListener("click", function(event){
+      	    location.reload();
+      	    console.log("layerremove");
+      	});
+
       	function completeCallback(result){
             console.log(result);
 
 
             // get the task result as a MapImageLayer
             hide_buttons()
+
             var resultLayer = gp.getResultMapImageLayer(result.jobId);
             resultLayer.opacity = 0.7;
             resultLayer.title = "result";
 
             // remove drawn polygon
 
-
+            graphicsLayer.removeAll();
             // add the result layer to the map
             map.layers.add(resultLayer);
+
+            var legend = new Legend({
+                view: view,
+                layerInfos: [{
+                layer: resultLayer,
+                title: "Legend"
+                }]
+            });
+
+            view.ui.add(legend, "top-right");
 
 
 	    }

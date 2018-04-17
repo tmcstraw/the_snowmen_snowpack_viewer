@@ -80,6 +80,11 @@ class TheSnowmenSnowpackViewer(TethysAppBase):
                 url='the-snowmen-snowpack-viewer/watershedtool',
                 controller='the_snowmen_snowpack_viewer.controllers.watershedtool'
             ),
+            UrlMap(
+                name='get_time_series',
+                url='the-snowmen-snowpack-viewer/get-time-series',
+                controller='the_snowmen_snowpack_viewer.ajax_controllers.get_time_series'
+            ),
         )
 
         return url_maps

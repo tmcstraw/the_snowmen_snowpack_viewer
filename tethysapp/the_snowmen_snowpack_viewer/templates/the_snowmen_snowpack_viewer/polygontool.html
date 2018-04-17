@@ -29,6 +29,7 @@
 <br>
 {% gizmo select_date %}
 
+{% gizmo refresh_button %}
 {% gizmo draw_polygon_button %}
 {% gizmo submit_region_button %}
 
@@ -45,11 +46,36 @@
 
   <div id="showMap"></div>
   <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div id="timeSeriesPlot"></div>
+  <br>
 
 {% endblock %}
 
 {# Use the after_app_content block for modals #}
 {% block after_app_content %}
+  <!-- Example Modal -->
+  <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-label">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h5 class="modal-title" id="help-modal-label">Instructions</h5>
+        </div>
+        <div class="modal-body">
+          <p>This Tool allows the user to define a polygon to perform a regional analysis of snow depth data for a specific area of interest.  This is meant to be applicable for ski resorts and other users who may have an interest in the amount of snow in a specific location.  The following instructions indicate how to use the tool:<br><br> 1.) Click on the Draw Polygon button  <br><br> 2.) Move your mouse over to the map and draw a polygon by clicking out the vertices.  Then Double Click when you are finished.  <br><br> 3.) After double clicking, make sure that you have selected the date for which you wish to retrieve the snow depth for the polygon you just drew. <br><br> 4.) Click the Submit Region button. When the service is finished processing, it should display your resulting raster.  <br><br> 5.) To perform another analysis click the Refresh button.
+            <br><br>The snowtel stations can still be toggeled on an off with the blue checkbox.  When the user clicks on a snotel station, a popup is generated with the station information and a time series of all the available snowdepth date for that station is generated below the map.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
 
@@ -64,4 +90,7 @@
 {% block scripts %}
   {{ block.super }}
   <script src="{% static 'the_snowmen_snowpack_viewer/js/polygontool.js' %}" type="text/javascript"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
 {% endblock %}

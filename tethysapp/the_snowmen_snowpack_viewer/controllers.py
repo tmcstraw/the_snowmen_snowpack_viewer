@@ -208,80 +208,10 @@ def region(request):
     Controller for the app region page.
     """
 
-    date_picker_initial = DatePicker(name='date1',
-                                     display_text='Initial Date',
-                                     autoclose=True,
-                                     format='MM d, yyyy',
-                                     start_date='1/1/2000',
-                                     start_view='decade',
-                                     today_button=False,
-                                     initial='January 1, 2018')
 
-    timeseries_plot = TimeSeries(
-        height='500px',
-        width='500px',
-        engine='highcharts',
-        title='Irregular Timeseries Plot',
-        y_axis_title='Snow depth',
-        y_axis_units='m',
-        series=[{
-            'name': 'Winter 2007-2008',
-            'data': [
-                [datetime(2008, 12, 2), 0.8],
-                [datetime(2008, 12, 9), 0.6],
-                [datetime(2008, 12, 16), 0.6],
-                [datetime(2008, 12, 28), 0.67],
-                [datetime(2009, 1, 1), 0.81],
-                [datetime(2009, 1, 8), 0.78],
-                [datetime(2009, 1, 12), 0.98],
-                [datetime(2009, 1, 27), 1.84],
-                [datetime(2009, 2, 10), 1.80],
-                [datetime(2009, 2, 18), 1.80],
-                [datetime(2009, 2, 24), 1.92],
-                [datetime(2009, 3, 4), 2.49],
-                [datetime(2009, 3, 11), 2.79],
-                [datetime(2009, 3, 15), 2.73],
-                [datetime(2009, 3, 25), 2.61],
-                [datetime(2009, 4, 2), 2.76],
-                [datetime(2009, 4, 6), 2.82],
-                [datetime(2009, 4, 13), 2.8],
-                [datetime(2009, 5, 3), 2.1],
-                [datetime(2009, 5, 26), 1.1],
-                [datetime(2009, 6, 9), 0.25],
-                [datetime(2009, 6, 12), 0]
-            ]
-        }]
-    )
-
-    submit_region_button = Button(
-        display_text='Submit Region',
-        name='submit-region-button',
-        icon='',
-        style='',
-        attributes={
-            'data-toggle': 'tooltip',
-            'data-placement': 'top',
-            'title': ''
-        }
-    )
-
-    draw_polygon_button = Button(
-        display_text='Draw Polygon',
-        name='draw-polygon-button',
-        icon='',
-        style='',
-        attributes={
-            'data-toggle': 'tooltip',
-            'data-placement': 'top',
-            'title': ''
-        }
-    )
 
     context = {
-        'date_picker_initial': date_picker_initial,
-        'timeseries_plot': timeseries_plot,
-        'submit_region_button': submit_region_button,
-        'draw_polygon_button': draw_polygon_button,
+
     }
 
     return render(request, 'the_snowmen_snowpack_viewer/region.html', context)
@@ -296,41 +226,52 @@ def polygontool(request):
         name='select_date',
         multiple=False,
         original=True,
-        options=[('January 1, 2017', 'Jan1 2017'),
-                 ('January 2, 2017', 'Jan2 2017'),
-                 ('January 3, 2017', 'Jan3 2017'),
-                 ('January 4, 2017', 'Jan4 2017'),
-                 ('January 5, 2017', 'Jan5 2017'),
-                 ('January 6, 2017', 'Jan6 2017'),
-                 ('January 7, 2017', 'Jan7 2017'),
-                 ('January 8, 2017', 'Jan8 2017'),
-                 ('January 9, 2017', 'Jan9 2017'),
-                 ('January 10, 2017', 'Jan10 2017'),
-                 ('January 11, 2017', 'Jan11 2017'),
-                 ('January 12, 2017', 'Jan12 2017'),
-                 ('January 13, 2017', 'Jan13 2017'),
-                 ('January 14, 2017', 'Jan14 2017'),
-                 ('January 15, 2017', 'Jan15 2017'),
-                 ('January 16, 2017', 'Jan16 2017'),
-                 ('January 17, 2017', 'Jan17 2017'),
-                 ('January 18, 2017', 'Jan18 2017'),
-                 ('January 19, 2017', 'Jan19 2017'),
-                 ('January 20, 2017', 'Jan20 2017'),
-                 ('January 21, 2017', 'Jan21 2017'),
-                 ('January 22, 2017', 'Jan22 2017'),
-                 ('January 23, 2017', 'Jan23 2017'),
-                 ('January 24, 2017', 'Jan24 2017'),
-                 ('January 25, 2017', 'Jan25 2017'),
-                 ('January 26, 2017', 'Jan26 2017'),
-                 ('January 27, 2017', 'Jan27 2017'),
-                 ('January 28, 2017', 'Jan28 2017'),
-                 ('January 29, 2017', 'Jan29 2017'),
-                 ('January 30, 2017', 'Jan30 2017'),
-                 ('January 31, 2017', 'Jan31 2017'),
+        options=[('January 1, 2017', 'Jan1_2017'),
+                 ('January 2, 2017', 'Jan2_2017'),
+                 ('January 3, 2017', 'Jan3_2017'),
+                 ('January 4, 2017', 'Jan4_2017'),
+                 ('January 5, 2017', 'Jan5_2017'),
+                 ('January 6, 2017', 'Jan6_2017'),
+                 ('January 7, 2017', 'Jan7_2017'),
+                 ('January 8, 2017', 'Jan8_2017'),
+                 ('January 9, 2017', 'Jan9_2017'),
+                 ('January 10, 2017', 'Jan10_2017'),
+                 ('January 11, 2017', 'Jan11_2017'),
+                 ('January 12, 2017', 'Jan12_2017'),
+                 ('January 13, 2017', 'Jan13_2017'),
+                 ('January 14, 2017', 'Jan14_2017'),
+                 ('January 15, 2017', 'Jan15_2017'),
+                 ('January 16, 2017', 'Jan16_2017'),
+                 ('January 17, 2017', 'Jan17_2017'),
+                 ('January 18, 2017', 'Jan18_2017'),
+                 ('January 19, 2017', 'Jan19_2017'),
+                 ('January 20, 2017', 'Jan20_2017'),
+                 ('January 21, 2017', 'Jan21_2017'),
+                 ('January 22, 2017', 'Jan22_2017'),
+                 ('January 23, 2017', 'Jan23_2017'),
+                 ('January 24, 2017', 'Jan24_2017'),
+                 ('January 25, 2017', 'Jan25_2017'),
+                 ('January 26, 2017', 'Jan26_2017'),
+                 ('January 27, 2017', 'Jan27_2017'),
+                 ('January 28, 2017', 'Jan28_2017'),
+                 ('January 29, 2017', 'Jan29_2017'),
+                 ('January 30, 2017', 'Jan30_2017'),
+                 ('January 31, 2017', 'Jan31_2017'),
                  ],
         initial=['January 1, 2017']
     )
 
+    refresh_button = Button(
+        display_text='Refresh',
+        name='refresh-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
+    )
 
     draw_polygon_button = Button(
         display_text='Draw Polygon',
@@ -359,7 +300,8 @@ def polygontool(request):
     context = {
         'select_date': select_date,
         'draw_polygon_button': draw_polygon_button,
-        'submit_region_button': submit_region_button
+        'submit_region_button': submit_region_button,
+        'refresh_button': refresh_button
     }
 
     return render(request, 'the_snowmen_snowpack_viewer/polygontool.html', context)
@@ -420,39 +362,51 @@ def watershedtool(request):
         name='select_date',
         multiple=False,
         original=True,
-        options=[('January 1, 2017', 'Jan1 2017'),
-                 ('January 2, 2017', 'Jan2 2017'),
-                 ('January 3, 2017', 'Jan3 2017'),
-                 ('January 4, 2017', 'Jan4 2017'),
-                 ('January 5, 2017', 'Jan5 2017'),
-                 ('January 6, 2017', 'Jan6 2017'),
-                 ('January 7, 2017', 'Jan7 2017'),
-                 ('January 8, 2017', 'Jan8 2017'),
-                 ('January 9, 2017', 'Jan9 2017'),
-                 ('January 10, 2017', 'Jan10 2017'),
-                 ('January 11, 2017', 'Jan11 2017'),
-                 ('January 12, 2017', 'Jan12 2017'),
-                 ('January 13, 2017', 'Jan13 2017'),
-                 ('January 14, 2017', 'Jan14 2017'),
-                 ('January 15, 2017', 'Jan15 2017'),
-                 ('January 16, 2017', 'Jan16 2017'),
-                 ('January 17, 2017', 'Jan17 2017'),
-                 ('January 18, 2017', 'Jan18 2017'),
-                 ('January 19, 2017', 'Jan19 2017'),
-                 ('January 20, 2017', 'Jan20 2017'),
-                 ('January 21, 2017', 'Jan21 2017'),
-                 ('January 22, 2017', 'Jan22 2017'),
-                 ('January 23, 2017', 'Jan23 2017'),
-                 ('January 24, 2017', 'Jan24 2017'),
-                 ('January 25, 2017', 'Jan25 2017'),
-                 ('January 26, 2017', 'Jan26 2017'),
-                 ('January 27, 2017', 'Jan27 2017'),
-                 ('January 28, 2017', 'Jan28 2017'),
-                 ('January 29, 2017', 'Jan29 2017'),
-                 ('January 30, 2017', 'Jan30 2017'),
-                 ('January 31, 2017', 'Jan31 2017'),
+        options=[('January 1, 2017', 'Jan1_2017'),
+                 ('January 2, 2017', 'Jan2_2017'),
+                 ('January 3, 2017', 'Jan3_2017'),
+                 ('January 4, 2017', 'Jan4_2017'),
+                 ('January 5, 2017', 'Jan5_2017'),
+                 ('January 6, 2017', 'Jan6_2017'),
+                 ('January 7, 2017', 'Jan7_2017'),
+                 ('January 8, 2017', 'Jan8_2017'),
+                 ('January 9, 2017', 'Jan9_2017'),
+                 ('January 10, 2017', 'Jan10_2017'),
+                 ('January 11, 2017', 'Jan11_2017'),
+                 ('January 12, 2017', 'Jan12_2017'),
+                 ('January 13, 2017', 'Jan13_2017'),
+                 ('January 14, 2017', 'Jan14_2017'),
+                 ('January 15, 2017', 'Jan15_2017'),
+                 ('January 16, 2017', 'Jan16_2017'),
+                 ('January 17, 2017', 'Jan17_2017'),
+                 ('January 18, 2017', 'Jan18_2017'),
+                 ('January 19, 2017', 'Jan19_2017'),
+                 ('January 20, 2017', 'Jan20_2017'),
+                 ('January 21, 2017', 'Jan21_2017'),
+                 ('January 22, 2017', 'Jan22_2017'),
+                 ('January 23, 2017', 'Jan23_2017'),
+                 ('January 24, 2017', 'Jan24_2017'),
+                 ('January 25, 2017', 'Jan25_2017'),
+                 ('January 26, 2017', 'Jan26_2017'),
+                 ('January 27, 2017', 'Jan27_2017'),
+                 ('January 28, 2017', 'Jan28_2017'),
+                 ('January 29, 2017', 'Jan29_2017'),
+                 ('January 30, 2017', 'Jan30_2017'),
+                 ('January 31, 2017', 'Jan31_2017'),
                  ],
         initial=['January 1, 2017']
+    )
+
+    refresh_button = Button(
+        display_text='Refresh',
+        name='refresh-button',
+        icon='',
+        style='',
+        attributes={
+            'data-toggle': 'tooltip',
+            'data-placement': 'top',
+            'title': ''
+        }
     )
 
     delineateWatershed_button = Button(
@@ -483,6 +437,8 @@ def watershedtool(request):
         'delineateWatershed_button': delineateWatershed_button,
         'submit_region_button': submit_region_button,
         'select_date': select_date,
+        'refresh_button': refresh_button
+
     }
 
     return render(request, 'the_snowmen_snowpack_viewer/watershedtool.html', context)

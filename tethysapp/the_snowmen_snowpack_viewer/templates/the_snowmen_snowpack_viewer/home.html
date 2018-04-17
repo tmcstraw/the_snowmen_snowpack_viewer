@@ -12,12 +12,17 @@
 <h1><b>Welcome to the Snowpack Viewer!<b></h1>
    <h5><b>Authors:<b></h5>
    <h5>Travis McStraw, Jorge Sanchez, Jason Biesinger</h5>
+<h4>If at any point you desire instructions, click on the Help Button. <div class="header-button glyphicon-button" data-toggle="tooltip" data-placement="bottom" title="Help">
+    <a data-toggle="modal" data-target="#help-modal"><span class="glyphicon glyphicon-question-sign"></span></a>
+  </div></h4>
+<br><br>
 
-    <h2>This is part of the course 514-Geospatial software development at Brigham Young University.</h2>
-    <h3>Here you will find the written <b><a href="/apps/the-snowmen-snowpack-viewer/proposal">proposal</a></b> for the Snow Pack Project.</h3>
-    <h3>Also you will see the planned <b><a href="/apps/the-snowmen-snowpack-viewer/mockup">Mock Up</a></b> for the Snow Pack Project.</h3>
-    <h3><b><a href="/apps/the-snowmen-snowpack-viewer/data_services">Data Services</a></b> talks about the data services used in <b><a href="/apps/the-snowmen-snowpack-viewer/region">Region</a></b>, how the data were created, where are the data hosting, and what data is included</h3>
-    <h3>The <b><a href="/apps/the-snowmen-snowpack-viewer/about">about</a></b> page include a little bit about who the authors are and the links to contact them.</h3>
+    <p>This is part of the course 514-Geospatial software development at Brigham Young University.</p>
+    <p>Here you will find the written <b><a href="/apps/the-snowmen-snowpack-viewer/proposal">proposal</a></b> for the Snow Pack Project.</p>
+    <p>Also you will see the planned <b><a href="/apps/the-snowmen-snowpack-viewer/mockup">Mock Up</a></b> for the Snow Pack Project.</p>
+    <p><b><a href="/apps/the-snowmen-snowpack-viewer/data_services">Data Services</a></b> talks about the data services used in our Geoprocessing tools, how the data were created, where are the data hosting, and what data is included</p>
+    <p>The <b><a href="/apps/the-snowmen-snowpack-viewer/animation">Animation Tool</a></b> allows the user to view the each of the rasters for January 2017 and view an animation file video file which plays the rasters through the month of January.  The <b><a href="/apps/the-snowmen-snowpack-viewer/polygontool">Polygon Tool</a></b> allows the user to draw a polygon around any region in utah(a ski resort for example) and creates a new result file with contours based on the data from that region.  The <b><a href="/apps/the-snowmen-snowpack-viewer/watershedtool">Watershed Tool</a></b> does this for a watershed that is specified by a user defined point(outfall).  Each of these three map pages(<b><a href="/apps/the-snowmen-snowpack-viewer/animation">Animation</a></b>, <b><a href="/apps/the-snowmen-snowpack-viewer/polygontool">Polygon</a></b>, and <b><a href="/apps/the-snowmen-snowpack-viewer/mockup">Watershed</a></b>) also allows the user to view time series data for each of the snotel stations in the state of Utah.</p>
+    <p>The <b><a href="/apps/the-snowmen-snowpack-viewer/about">about</a></b> page include a little bit about who the authors are and the links to contact them.</p>
 
 
 {% endblock %}
@@ -30,12 +35,14 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h5 class="modal-title" id="help-modal-label">Example Modal</h5>
+          <h5 class="modal-title" id="help-modal-label">Instructions</h5>
         </div>
         <div class="modal-body">
-          <p>You can add custom buttons to the app header using the <code>header_buttons</code> block. Use anchor/link tags for the button and wrap it in a div with the class <code>header-button</code>. For buttons with the gliphyicons, add the <code>glyphicon-button</code> class as well.</p>
-          <p>Ever have trouble using a modal in a Tethys app? Use the <code>after_app_content</code> block for modal content to allow them to function properly. See: <a href="https://getbootstrap.com/javascript/#modals">Bootstrap Modals</a></p>
-          <p>Add tooltips to any element by adding the <code>data-toggle</code>, <code>data-placement</code>, and <code>title</code> attributes to the button. See: <a href="https://getbootstrap.com/javascript/#tooltips">Bootstrap Tooltips</a></p>
+          <p>Select one of the tools in the App Navigation menu on the left side of the page.
+             <br><br>The <b><a href="/apps/the-snowmen-snowpack-viewer/animation">Animation Tool</a></b> allows the user to view the rasters for the enitre state for any day in January 2017.<br>
+             <br>The <b><a href="/apps/the-snowmen-snowpack-viewer/polygontool">Polygon Tool</a></b> allows the user to perform a regional analysis for snow depth on a specific area in Utah (a ski resort for example).<br>
+             <br>The <b><a href="/apps/the-snowmen-snowpack-viewer/watershedtool">Watershed Tool</a></b> performs a snow depth analysis for a watershed that calculated from a user defined outlet point.  This helps the user get an idea of how much SWE may reach the reservoir during runoff season and other useful calculations.
+             <br><br> The <b><a href="/apps/the-snowmen-snowpack-viewer/about">About</a></b> page provides further information about the application, its development, and its authors.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
